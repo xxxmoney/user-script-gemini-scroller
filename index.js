@@ -136,8 +136,14 @@ function appendElements() {
     div.style.borderRadius = '5px';
 
     const switchButton = createButton('Start/Stop', () => {
+        console.log('Switching handler state:', window.enabled ? 'off' : 'on');
+
         window.enabled = !window.enabled;
         document.getElementById(RUNNING_STATE_ID).checked = window.enabled;
+
+        if (!window.enabled) {
+            console.log('Handler stopped!');
+        }
     });
     div.appendChild(switchButton);
 
@@ -189,9 +195,6 @@ function startHandler() {
             handleHiding();
 
             console.log('Handler finished');
-        }
-        else {
-            console.log('Handler not running - disabled');
         }
 
         document.getElementById(RUNNING_STATE_ID).checked = window.enabled;
