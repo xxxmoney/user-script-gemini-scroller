@@ -4,6 +4,8 @@ const MIN_TO_SHOW = 3;
 const MAX_TO_SHOW = 10;
 const THRESHOLD_CONSECUTIVE_CONVERSATIONS_EMPTY = 20;
 const CONVERSATION_TITLE_SELECTOR = '.conversation.selected .conversation-title';
+const SCROLLER_SELECTOR = 'infinite-scroller';
+const INITIALIZE_TIMEOUT = 1500;
 const TIMER_INTERVAL = 250;
 
 function extractText(element) {
@@ -39,27 +41,38 @@ function handleScrolling() {
 
         scroller.scrollTop = 0;
     }
+    else {
+        console.error('Scroller not found');
+    }
 }
 
-function handleHiding() {    
+function handleHiding() {
+    console.log('Handling hiding...');
+
     const conversationsRead = getConversationsRead();
     const conversationsUnread = getConversationsUnread();
 
     // Set loaded conversation from scroller as read
     if (window.scroller && conversationsUnread.length > 0) {
+        console.log('Settings conversations as read:', conversationsUnread.length, '...');
+
         window.consecutiveConversationsEmpty = 0;
         
         for (const conversation of conversationsUnread) {
             // Add class read
             conversation.classList.add(READ_CLASS);
         }
+
+        console.log('Finished settings conversations as read:', conversationsUnread.length);
     }
     else {
+        console.log('No conversations to read');
         window.consecutiveConversationsEmpty++;
     }
 
     // Disable on finish
     if (window.consecutiveConversationsEmpty >= THRESHOLD_CONSECUTIVE_CONVERSATIONS_EMPTY) {
+        console.log('Finished, disabling handler');
         window.enabled = false;
     }
 
@@ -69,6 +82,8 @@ function handleHiding() {
             conversationsRead[i].style.display = 'none';
         }
     }
+
+    console.log('Handling hiding finish', 'conversations read:', conversationsRead.length, 'conversations unread:', conversationsUnread.length);
 }
 
 function getChatTitle() {
@@ -164,26 +179,45 @@ function createButton(text, handler) {
 }
 
 function startHandler() {
+    console.log('Starting handler...');
+
     setInterval(() => {
+        console.log('Interval start..');
         if (window.enabled) {
+            console.log('Handler running...');
+
             handleScrolling();
             handleHiding();
+
+            console.log('Handler finished');
         }
 
         document.getElementById(RUNNING_STATE_ID).checked = window.enabled;
+
+        console.log('Interval finished');
     }, TIMER_INTERVAL);
+
+    console.log('Handler started');
 }
 
 
 (function () {
     'use strict';
 
-    window.onload = () => {
+    window.onload = async () => {
+        console.log('Initializing...');
+
+        console.log('Waiting initialization interval...');
+        await new Promise(resolve => setTimeout(resolve, INITIALIZE_TIMEOUT));
+        console.log('Initialization interval finished, continuing...');
+
         window.enabled = false;
-        window.scroller = document.querySelector('infinite-scroller');
+        window.scroller = document.querySelector(SCROLLER_SELECTOR);
         window.consecutiveConversationsEmpty = 0;
 
         startHandler();
         appendElements();
+
+        console.log('Initialized');
     }
 })();
