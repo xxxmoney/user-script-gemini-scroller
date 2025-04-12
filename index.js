@@ -182,7 +182,6 @@ function startHandler() {
     console.log('Starting handler...');
 
     setInterval(() => {
-        console.log('Interval start..');
         if (window.enabled) {
             console.log('Handler running...');
 
@@ -191,10 +190,11 @@ function startHandler() {
 
             console.log('Handler finished');
         }
+        else {
+            console.log('Handler not running - disabled');
+        }
 
         document.getElementById(RUNNING_STATE_ID).checked = window.enabled;
-
-        console.log('Interval finished');
     }, TIMER_INTERVAL);
 
     console.log('Handler started');
