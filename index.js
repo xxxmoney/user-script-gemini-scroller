@@ -4,7 +4,7 @@ const MIN_TO_SHOW = 3;
 const MAX_TO_SHOW = 10;
 const THRESHOLD_CONSECUTIVE_CONVERSATIONS_EMPTY = 20;
 const CONVERSATION_TITLE_SELECTOR = '.conversation.selected .conversation-title';
-const SCROLLER_SELECTOR = 'infinite-scroller';
+const SCROLLER_SELECTOR = 'infinite-scroller.chat-history';
 const INITIALIZE_TIMEOUT = 1500;
 const TIMER_INTERVAL = 250;
 
