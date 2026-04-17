@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Gemini Scroller
 // @namespace    http://tampermonkey.net/
-// @version      2025-04-12
-// @description  try to take over the world!
+// @version      2026-04-17
+// @description  Chat scroller for Google's Gemini Web
 // @author       You
 // @match        https://gemini.google.com/*app*
 // @match        https://gemini.google.com/*gem*
