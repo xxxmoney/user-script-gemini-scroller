@@ -1,3 +1,15 @@
+// ==UserScript==
+// @name         Gemini Scroller
+// @namespace    http://tampermonkey.net/
+// @version      2025-04-12
+// @description  try to take over the world!
+// @author       You
+// @match        https://gemini.google.com/*app*
+// @match        https://gemini.google.com/*gem*
+// @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+// @grant        none
+// ==/UserScript==
+
 const READ_CLASS = 'read';
 const RUNNING_STATE_ID = 'running-state';
 const MIN_TO_SHOW = 3;
@@ -57,7 +69,7 @@ function handleHiding() {
         console.log('Settings conversations as read:', conversationsUnread.length, '...');
 
         window.consecutiveConversationsEmpty = 0;
-        
+
         for (const conversation of conversationsUnread) {
             // Add class read
             conversation.classList.add(READ_CLASS);
@@ -100,8 +112,8 @@ function getChat() {
             query: extractText(userQuery),
             response: extractText(reponse)
         };
-    }); 
-    
+    });
+
     return {
         title: title,
         chat: conversations
@@ -111,7 +123,7 @@ function getChat() {
 async function copyChatToClipbaord() {
     try {
         const chat = getChat();
-        await navigator.clipboard.writeText(JSON.stringify(chat));        
+        await navigator.clipboard.writeText(JSON.stringify(chat));
         const message = `Chat copied to clipboard: ${chat.title}`;
 
         // Show dialog
@@ -156,7 +168,7 @@ function appendElements() {
     // Reset checked on click
     runningState.addEventListener('click', (e) => {
         e.preventDefault();
-        runningState.checked = window.enabled;        
+        runningState.checked = window.enabled;
     });
 
     const copyChatToClipboardButton = createButton('Get Chat', async () => {
